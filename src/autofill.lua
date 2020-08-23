@@ -6,15 +6,9 @@ package.path = package.path
 
 require("qwnd")
 
-local function onStopOrderDialogOpen(window)
-    stopOrderDialog.setOrderType(window, 4)
-    stopOrderDialog.setDuration(window, "המ מעלוםû")
-    stopOrderDialog.setClient(window, 0)
-end
+local TIMEOUT = 1000
 
-local timeout = 1000
 local running = true
-local window_open = false
 
 function OnStop()
     running = false
@@ -22,18 +16,12 @@ end
 
 function main()
     while running do
-        sleep(timeout)
+        sleep(TIMEOUT)
 
-        local window = findWindow({stopOrderDialog})
-        if window then
-            if not window_open then
-                window_open = true
-                if window.type == stopOrderDialog then
-                    onStopOrderDialogOpen(window)
-                end
-            end
-        else
-            window_open = false
-        end
+        processWindow(stopOrderDialog, function(window)
+            stopOrderDialog.setOrderType(window, 4)
+            stopOrderDialog.setDuration(window, "המ מעלוםû")
+            stopOrderDialog.setClient(window, 0)
+        end)
     end
 end
