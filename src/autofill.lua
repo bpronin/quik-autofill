@@ -18,6 +18,10 @@ function main()
     while running do
         sleep(TIMEOUT)
 
+        processWindow(orderDialog, function(window)
+            orderDialog.setClient(window, 0)
+        end)
+        
         processWindow(stopOrderDialog, function(window)
             stopOrderDialog.setOrderType(window, 4)
             stopOrderDialog.setDuration(window, "המ מעלוםû")

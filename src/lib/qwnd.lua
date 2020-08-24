@@ -20,8 +20,8 @@ local function findWindow(wndType)
     end
 end
 
-local function findChildAt(hParent, hChild, childClass, childText, depth)
-    local hWnd = w32.FindWindowEx(hParent, hChild, childClass, childText)
+local function findChildAt(hParent, hOffsetChild, offsetChildClass, offsetChildText, depth)
+    local hWnd = w32.FindWindowEx(hParent, hOffsetChild, offsetChildClass, offsetChildText)
     if depth == 0 then
         return hWnd
     else
@@ -50,8 +50,18 @@ function processWindow(type, onOpen, onClose)
     end
 end
 
+orderDialog = {
+    wndClass = "#32770",
+    wndText = "Ввод Заявки"
+}
+
+function orderDialog.setClient(window, client)
+    local hWnd = findChildAt(window.handle, 0, "Button", "Рыночная", 1)
+    w32.PostMessage(hWnd, CB_SETCURSEL, client, 0)
+end
+
 stopOrderDialog = {
-    wndClass = "",
+    wndClass = "#32770",
     wndText = "Новая стоп-заявка"
 }
 
